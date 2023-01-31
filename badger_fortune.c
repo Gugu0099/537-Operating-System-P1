@@ -61,11 +61,11 @@ int main(int argc, char *argv[])
     while (row)
     {
         if (fgets(currLine, col, fp) == 0)
-        {   // reach the end of file
+        { // reach the end of file
             // even though it's in the if its copying into the buffer;
-            printf("Current Quote: %s\n", currQuote);
+            // printf("Current Quote: %s\n", currQuote);
             strcpy(fortuneArr[idx], currQuote);
-            printf("Current Line: %s\n", fortuneArr[idx]);
+            // printf("Current Line: %s\n", fortuneArr[idx]);
             strcpy(currQuote, "");
             break;
         }
@@ -77,16 +77,52 @@ int main(int argc, char *argv[])
             }
             else
             { // reached end of the quote so reset it
-                printf("Current Quote: %s\n", currQuote);
+                // printf("Current Quote: %s\n", currQuote);
                 strcpy(fortuneArr[idx], currQuote);
-                printf("Current Line: %s\n", fortuneArr[idx]);
+                // printf("Current Line: %s\n", fortuneArr[idx]);
                 strcpy(currQuote, "");
-                // idx++;
+                idx++;
                 row--;
             }
         }
     }
     // check if we're in batch mode
+    if (strcmp(argv[3], "-b") == 0)
+    {
+        batch_mode = 1;
+    }
+    /*
+    int i = 0;
+    while(1){
+        if (fortuneArr[i] == NULL){
+            break;
+        }
+        printf("%s\n",fortuneArr[i]);
+        i++;
+    }
+
+    printf("%d\n", i);
+    */
+
+   // -n number
+    printf("In batch: %d\n", batch_mode);
+    if (batch_mode == 0)
+    {
+        // do some error handling here
+        int line = atoi(argv[4]);
+        printf("%s\n", fortuneArr[line - 1]);
+    }
+
+    if (batch_mode == 1)
+    {
+        batchFile = argv[4];
+        printf("%s\n", batchFile);
+        fp = fopen(batchFile, "r");
+        if (fp == NULL)
+        {
+            printf("error");
+        }
+    }
 
     fclose(fp);
 
