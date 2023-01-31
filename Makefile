@@ -1,2 +1,2 @@
 run:
-	gcc badger_fortune.c -o badger_fortune -Werror
+	gcc badger_fortune.c -o badger_fortune -Werror -g
