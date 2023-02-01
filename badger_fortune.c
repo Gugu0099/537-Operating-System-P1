@@ -33,14 +33,14 @@ int main(int argc, char *argv[])
     }
     if (strcmp(argv[3], "-n") != 0 && strcmp(argv[3], "-b") != 0)
     {
-        printf("ERROR: Invalid Flag Types 2\n");
+        printf("ERROR: Invalid Flag Types\n");
         return 1;
     }
     if (argc >= 6)
     {
         if ((strcmp(argv[5], "-o")) != 0)
         {
-            printf("ERROR: Invalid Flag Types 1\n");
+            printf("ERROR: Invalid Flag Types\n");
             return 1;
         }
         // Error: -n then -b:
@@ -76,8 +76,33 @@ int main(int argc, char *argv[])
     if (fp == NULL)
     {
         printf("ERROR: Can't open fortune file\n");
+        return 1;
     }
     // Error: Fortune File not Specified
+    if (strcmp(argv[1], "-f") != 0)
+    {
+        printf("ERROR: No fortune file was provided\n");
+        return 1;
+    }
+    if (strcmp(argv[2], "") == 0)
+    {
+        printf("seg3\n");
+        printf("ERROR: No fortune file was provided\n");
+        return 1;
+      } //else {
+    //     int len = strlen(outputFile);
+    //     if(len > 4){
+    //     printf("seg1\n");
+    //     char *last_four = &outputFile[len - 4];
+    //     printf("seg2\n");
+    //     printf("%s\n", last_four);
+    //     printf("seg3\n");
+    //     if(strcmp(last_four, ".txt") != 0){
+    //          printf("ERROR: No fortune file was provided\n");
+    //     return 1;
+    //     }
+    //     }
+    // }
 
     // Error: Empty fortune file
     int sizeFortune;
@@ -94,7 +119,8 @@ int main(int argc, char *argv[])
     }
     rewind(fp);
 
-    if(strcmp(argv[5], "-o") == 0){
+    if (strcmp(argv[5], "-o") == 0)
+    {
         outputFile = argv[6];
         printf("printing output file: %s\n", outputFile);
         fp3 = fopen(outputFile, "w");
@@ -175,12 +201,15 @@ int main(int argc, char *argv[])
     {
         // do some error handling here
         int line = atoi(argv[4]);
-         if(strcmp(argv[5], "-o") == 0){
-        fprintf(fp3, "%s\n",fortuneArr[line - 1]);
-        fclose(fp3);
-         }else{
-        printf("%s\n", fortuneArr[line - 1]);
-         }
+        if (strcmp(argv[5], "-o") == 0)
+        {
+            fprintf(fp3, "%s\n", fortuneArr[line - 1]);
+            fclose(fp3);
+        }
+        else
+        {
+            printf("%s\n", fortuneArr[line - 1]);
+        }
     }
 
     // -b batch file
@@ -238,15 +267,17 @@ int main(int argc, char *argv[])
                     printf("ERROR: Invalid Fortune Number\n\n");
                     continue;
                 }
-                
             }
-            if(strcmp(argv[5], "-o") == 0){
-        fprintf(fp3, "%s\n",fortuneArr[num - 1]);
-        fclose(fp3);
-         }else{
-        printf("%s\n", fortuneArr[num- 1]);
-         }
+            if (strcmp(argv[5], "-o") == 0)
+            {
+                fprintf(fp3, "%s\n", fortuneArr[num - 1]);
+            }
+            else
+            {
+                printf("%s\n", fortuneArr[num - 1]);
+            }
         }
+        fclose(fp3);
         fclose(fp2);
     }
 
