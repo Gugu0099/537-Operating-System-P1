@@ -25,35 +25,59 @@ int main(int argc, char *argv[])
         printf("USAGE: \n\tbadger-fortune -f <file> -n <number> (optionally: -o <output file>) \n\t\t OR \n\tbadger-fortune -f <file> -b <batch file> (optionally: -o <output file>)\n");
         return 1;
     }
+    int f = 0;
+    int fFile = 0;
+    int n = 0;
+    int nTemp = 0;
+    int num = 0;
+    int b = 0;
+    int bTemp = 0;
+    int o = 0;
+    int oFile = 0;
+    for(int i = 0; i < argc; i++){
+        if(strcmp(argv[i], "-f") == 0) {
+            f = 1;
+        }
+        if(strcmp(argv[i], "-n") == 0) {
+            n = 1;
+            nTemp = i;
+        }
+        if(strcmp(argv[i], "-b") == 0) {
+            b = 1;
+            bTemp = i;
+        }
+        if(strcmp(argv[i], "-o") == 0) {
+            o = 1;
+        }
+    }
     // Error: Invalid Flag
-    if ((strcmp(argv[1], "-f")) != 0)
+    if (f != 1)
     {
-        printf("ERROR: Invalid Flag Types\n");
+        printf("ERROR: Invalid Flag Types1\n");
         return 1;
     }
-    if (strcmp(argv[3], "-n") != 0 && strcmp(argv[3], "-b") != 0)
+    if (n == 1 && b == 1)
     {
-        printf("ERROR: Invalid Flag Types\n");
+        printf("ERROR: Invalid Flag Types2\n");
         return 1;
     }
     if (argc >= 6)
     {
-        if ((strcmp(argv[5], "-o")) != 0)
+        if (o != 1)
         {
-            printf("ERROR: Invalid Flag Types\n");
+            printf("ERROR: Invalid Flag Types3\n");
             return 1;
         }
-        // Error: -n then -b:
-        if (strcmp(argv[3], "-n") == 0 && strcmp(argv[5], "-b") == 0)
+        if (nTemp != 0 && bTemp != 0)
         {
+            if(nTemp > bTemp){  // Error: -n then -b:
             printf("ERROR: You can't use batch mode when specifying a fortune number using -n\n");
             return 1;
-        }
-        // Error: -b then -n
-        if (strcmp(argv[3], "-b") == 0 && strcmp(argv[5], "-n") == 0)
-        {
-            printf("ERROR: You can't specify a specific fortune number in conjunction with batch mode\n");
+            }
+            if(bTemp > nTemp){ // Error: -b then -n
+                printf("ERROR: You can't specify a specific fortune number in conjunction with batch mode\n");
             return 1;
+            }
         }
     }
     int number;
@@ -84,12 +108,14 @@ int main(int argc, char *argv[])
         printf("ERROR: No fortune file was provided\n");
         return 1;
     }
-    if (strcmp(argv[2], "") == 0)
-    {
-        printf("seg3\n");
-        printf("ERROR: No fortune file was provided\n");
-        return 1;
-      } //else {
+    // if (strcmp(argv[2], "") == 0)
+    // {
+    //     printf("ERROR: No fortune file was provided\n");
+    //     return 1;
+    //   } else {
+    //     // f open
+    //     // while index i oepn i+1
+    //     // if you have b set it from 1 otherwise 0;
     //     int len = strlen(outputFile);
     //     if(len > 4){
     //     printf("seg1\n");
@@ -118,12 +144,13 @@ int main(int argc, char *argv[])
         }
     }
     rewind(fp);
-
-    if (strcmp(argv[5], "-o") == 0)
-    {
-        outputFile = argv[6];
-        printf("printing output file: %s\n", outputFile);
-        fp3 = fopen(outputFile, "w");
+    if (argc > 5){
+        if (strcmp(argv[5], "-o") == 0)
+        {
+            outputFile = argv[6];
+            printf("printing output file: %s\n", outputFile);
+            fp3 = fopen(outputFile, "w");
+        }
     }
     // get dimensions of the fortune file
     int idx = 0; // start point (line number)
@@ -148,7 +175,7 @@ int main(int argc, char *argv[])
         printf("ERROR: Invalid Fortune Number\n");
         return 1;
     }
-    char *token;
+    // char *token;
 
     char **fortuneArr = (char **)malloc(sizeof(char *) * row);
     for (int i = 0; i < row; i++)
@@ -197,8 +224,11 @@ int main(int argc, char *argv[])
 
     // -n number
     printf("In batch: %d\n", batch_mode);
+    printf("line 227");
+    
     if (batch_mode == 0)
     {
+        printf("line 229");
         // do some error handling here
         int line = atoi(argv[4]);
         if (strcmp(argv[5], "-o") == 0)
